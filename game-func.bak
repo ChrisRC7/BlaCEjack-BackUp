@@ -1,0 +1,34 @@
+#lang racket
+(define (carta-aleatoria cartas)
+  (list-ref cartas (random (length cartas))))
+
+(define (eliminar-carta-aleatoria carta cartas)
+  (cond
+    ((null? cartas) '())  ; Si la lista está vacía, retorna una lista vacía.
+    ((equal? carta (car cartas)) (cdr cartas))  ; Si la carta es la primera de la lista, la omitimos.
+    (else (cons (car cartas) (eliminar-carta-aleatoria carta (cdr cartas))))))  ; Sino, seguimos recursivamente.
+
+;; Uso:
+(define cartas '(Ah Ad Ac As 2h 2d 2c 2s 3h 3d 3c 3s 4h 4d 4c 4s 5h 5d 5c 5s 6h 6d 6c 6s 7h 7d 7c 7s 8h 8d 8c 8s 9h 9d 9c 9s 10h 10d 10c 10s Jh Jd Jc Js Qh Qd Qc Qs Kh Kd Kc Ks))
+(define baraja '())
+
+
+(define (crear-baraja lista-cartas baraja)
+  (cond
+    ((null? lista-cartas) baraja)
+    (else (aux-baraja lista-cartas baraja (carta-aleatoria lista-cartas)))))
+
+(define (aux-baraja lista-cartas baraja carta-aleat)
+  (cond
+    ((null? lista-cartas)' baraja)
+    (else (crear-baraja (eliminar-carta-aleatoria carta-aleat lista-cartas) (cons carta-aleat baraja)))))
+  
+
+
+  
+(define baraja-desordenada (crear-baraja cartas baraja))
+  
+  
+
+(displayln "Baraja desordenada:")
+(displayln baraja-desordenada)

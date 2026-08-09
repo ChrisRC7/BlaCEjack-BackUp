@@ -1,0 +1,34 @@
+#lang racket/gui
+(define frame (new frame%
+                   [label "BlaCEjack"]
+                   [width 300]
+                   [height 300]))
+(new canvas% [parent frame]
+             [paint-callback
+              (lambda (canvas dc)
+                (send dc set-scale 3 3)
+                (send dc set-text-foreground "blue")
+                (send dc draw-text "BlaCEjack" 0 0))])
+; Make a static text message in the frame
+(define msg (new message% [parent frame]
+                          [label "No events so far..."]))
+; Derive a new canvas (a drawing window) class to handle events
+
+ (new canvas% 
+     [parent frame]
+     [paint-callback
+      (λ (canvas dc)
+        (send dc draw-bitmap (read-bitmap "C:/Users/ulise/OneDrive/Escritorio/games racket/games/cards/locolor/card-0-0.png") 0 0))])
+; Make a canvas that handles events in the frame
+
+(define panel (new horizontal-panel% [parent frame]))
+(new button% [parent panel]
+             [label "Left"]
+             [callback (lambda (button event)
+                         (send msg set-label "Left click"))])
+(new button% [parent panel]
+             [label "Right"]
+             [callback (lambda (button event)
+                         (send msg set-label "Right click"))])
+
+(send frame show #t)
